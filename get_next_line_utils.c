@@ -6,7 +6,7 @@
 /*   By: mdourdoi <mdourdoi@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:58:59 by mdourdoi          #+#    #+#             */
-/*   Updated: 2025/11/17 16:20:42 by mdourdoi         ###   ########.fr       */
+/*   Updated: 2025/11/17 16:30:55 by mdourdoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*ft_strndup(const char *s, int n)
 	res = malloc((len + 1) * sizeof(char));
 	if (!res)
 		return (NULL);
-	while (i < len && i < n)
+	while (i < len && i < (size_t)n)
 	{
 		res[i] = s[i];
 		i++;

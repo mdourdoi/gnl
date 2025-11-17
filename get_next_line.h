@@ -6,7 +6,7 @@
 /*   By: mdourdoi <mdourdoi@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:58:54 by mdourdoi          #+#    #+#             */
-/*   Updated: 2025/11/17 16:20:59 by mdourdoi         ###   ########.fr       */
+/*   Updated: 2025/11/17 16:44:51 by mdourdoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10
+# endif
+
+# if BUFFER_SIZE > 4096
+#  undef BUFFER_SIZE
+#  define BUFFER_SIZE 4096
 # endif
 
 size_t	ft_strlen(char const *s, char end);

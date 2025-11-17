@@ -6,7 +6,7 @@
 /*   By: mdourdoi <mdourdoi@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:59:02 by mdourdoi          #+#    #+#             */
-/*   Updated: 2025/11/17 16:20:18 by mdourdoi         ###   ########.fr       */
+/*   Updated: 2025/11/17 17:00:38 by mdourdoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static char	*ft_line(int fd, char *residue)
 {
 	char	cur[BUFFER_SIZE + 1];
-	size_t	security;
+	ssize_t	security;
 	char	*temp;
 	char	*res;
 
@@ -76,6 +76,8 @@ char	*get_next_line(int fd)
 	char		*result;
 	char		*line;
 
+	if (fd < 0 || fd > 1023 || BUFFER_SIZE < 1)
+		return (NULL);
 	line = NULL;
 	result = NULL;
 	line = ft_line(fd, residue);
@@ -90,3 +92,16 @@ char	*get_next_line(int fd)
 		return (ft_free_all(NULL, result, residue));
 	return (result);
 }
+/*
+#include <stdio.h>
+int	main()
+{
+	char *test;
+
+	while ((test = get_next_line(0)))
+	{
+		printf("%s", test);
+		free(test);
+	}
+	return (0);
+}*/
