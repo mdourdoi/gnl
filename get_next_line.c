@@ -12,6 +12,18 @@
 
 #include "get_next_line.h"
 
+static void	*ft_free_all(char *result, char **residue)
+{
+	if (result)
+		free(result);
+	if (residue)
+	{
+		free(*residue);
+		*residue = NULL;
+	}
+	return (NULL);
+}
+
 static char	*ft_line(int fd, char *residue)
 {
 	char	cur[BUFFER_SIZE + 1];
@@ -19,14 +31,16 @@ static char	*ft_line(int fd, char *residue)
 	char	*temp;
 	char	*res;
 
-	if (ft_newline_found(residue))
-		return (residue);
-	res = residue;
+	res = ft_strndup(residue, ft_strlen(residue, 0));
+	if (ft_newline_found(res))
+		return (res);
 	while (1)
 	{
 		security = read(fd, cur, BUFFER_SIZE);
-		if (security <= 0)
+		if (security == 0)
 			break ;
+		if (security == -1)
+			return (ft_free_all(res, NULL));
 		cur[security] = 0;
 		temp = res;
 		res = ft_strjoin(temp, cur);
@@ -59,17 +73,6 @@ static char	*ft_get_residue(char *s)
 	return (residue);
 }
 
-static void	*ft_free_all(char *line, char *result, char *residue)
-{
-	if (line)
-		free(line);
-	if (result)
-		free(result);
-	if (residue)
-		free(residue);
-	return (NULL);
-}
-
 char	*get_next_line(int fd)
 {
 	static char	*residue = NULL;
@@ -77,22 +80,21 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	if (fd < 0 || fd > 1023 || BUFFER_SIZE < 1)
-		return (NULL);
+		return (ft_free_all(NULL, &residue));
 	line = NULL;
 	result = NULL;
 	line = ft_line(fd, residue);
 	if (!line)
-		return (ft_free_all(line, result, residue));
+		return (ft_free_all(NULL, &residue));
+	ft_free_all(NULL, &residue);
 	result = ft_get_result(line);
 	residue = ft_get_residue(line);
 	free(line);
-	if (!result || !residue)
-		return (ft_free_all(NULL, result, residue));
-	if (ft_strlen(result, 0) == 0)
-		return (ft_free_all(NULL, result, residue));
+	if (!result || !residue || ft_strlen(result, 0) == 0)
+		return (ft_free_all(result, &residue));
 	return (result);
 }
-/*
+
 #include <stdio.h>
 int	main()
 {
@@ -104,4 +106,4 @@ int	main()
 		free(test);
 	}
 	return (0);
-}*/
+}
