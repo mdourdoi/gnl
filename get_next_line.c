@@ -6,7 +6,7 @@
 /*   By: mdourdoi <mdourdoi@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:59:02 by mdourdoi          #+#    #+#             */
-/*   Updated: 2025/11/17 17:00:38 by mdourdoi         ###   ########.fr       */
+/*   Updated: 2025/11/18 15:44:47 by mdourdoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,15 @@
 
 static void	*ft_free_all(char *result, char **residue)
 {
+	int	i;
+
 	if (result)
 		free(result);
-	if (residue)
+	if (residue && *residue)
 	{
+		i = 0;
+		while ((*residue)[i])
+			(*residue)[i++] = 0;
 		free(*residue);
 		*residue = NULL;
 	}
@@ -34,7 +39,7 @@ static char	*ft_line(int fd, char *residue)
 	res = ft_strndup(residue, ft_strlen(residue, 0));
 	if (ft_newline_found(res))
 		return (res);
-	while (1)
+	while (res)
 	{
 		security = read(fd, cur, BUFFER_SIZE);
 		if (security == 0)
@@ -95,15 +100,15 @@ char	*get_next_line(int fd)
 	return (result);
 }
 
-#include <stdio.h>
-int	main()
-{
-	char *test;
-
-	while ((test = get_next_line(0)))
-	{
-		printf("%s", test);
-		free(test);
-	}
-	return (0);
-}
+// #include <stdio.h>
+// int	main(int, char** argv)
+// {
+// 	int fd = open(argv[1], 0, 0);
+// 	char *test;
+// 	while ((test = get_next_line(fd)))
+// 	{
+// 		printf("%s", test);
+// 		free(test);
+// 	}
+// 	return (0);
+// }
