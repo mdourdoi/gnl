@@ -6,7 +6,7 @@
 /*   By: mdourdoi <mdourdoi@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:58:59 by mdourdoi          #+#    #+#             */
-/*   Updated: 2025/11/19 17:19:53 by mdourdoi         ###   ########.fr       */
+/*   Updated: 2025/11/18 15:44:06 by mdourdoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,32 @@ size_t	ft_strlen(char const *s, char end)
 	return (i);
 }
 
-char	*ft_strjoin(char *s1, char const *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t	i;
-	char	*temp;
+	char	*res;
 	size_t	len_s1;
+	size_t	len_s2;
 
-	i = -1;
+	i = 0;
 	len_s1 = ft_strlen(s1, 0);
-	temp = s1;
-	s1 = malloc((len_s1 + ft_strlen(s2, 0) + 1) * sizeof(char));
-	if (!s1)
+	len_s2 = ft_strlen(s2, 0);
+	res = malloc((len_s1 + len_s2 + 1) * sizeof(char));
+	if (!res)
 		return (NULL);
-	while (++i < len_s1)
-		s1[i] = temp[i];
-	while ((i < ft_strlen(s2, 0) + len_s1) && s2[i - len_s1] != '\n')
+	while (i < len_s1)
 	{
-		s1[i] = s2[i - len_s1];
+		res[i] = s1[i];
 		i++;
 	}
-	if (s2[i] == '\n')
-		s1[i++] = '\n';
-	s1[i] = 0;
-	free(temp);
-	return (s1);
+	i = 0;
+	while (i < len_s2)
+	{
+		res[i + len_s1] = s2[i];
+		i++;
+	}
+	res[len_s1 + len_s2] = 0;
+	return (res);
 }
 
 char	*ft_strndup(const char *s, int n)

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdourdoi <mdourdoi@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:58:54 by mdourdoi          #+#    #+#             */
-/*   Updated: 2025/11/19 16:56:53 by mdourdoi         ###   ########.fr       */
+/*   Updated: 2025/11/19 11:11:33 by mdourdoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -26,7 +26,7 @@
 # endif
 
 size_t	ft_strlen(char const *s, char end);
-char	*ft_strjoin(char *s1, char const *s2);
+char	*ft_strjoin(char const *s1, char const *s2);
 int		ft_newline_found(char *s);
 char	*ft_strndup(const char *s, int n);
 char	*get_next_line(int fd);
