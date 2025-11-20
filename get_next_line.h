@@ -6,7 +6,7 @@
 /*   By: mdourdoi <mdourdoi@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:58:54 by mdourdoi          #+#    #+#             */
-/*   Updated: 2025/11/19 16:56:53 by mdourdoi         ###   ########.fr       */
+/*   Updated: 2025/11/20 18:11:28 by mdourdoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,15 @@
 # include <stdlib.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
-# endif
-
-# if BUFFER_SIZE > 4096
-#  undef BUFFER_SIZE
-#  define BUFFER_SIZE 4096
+#  define BUFFER_SIZE 42
 # endif
 
 size_t	ft_strlen(char const *s, char end);
-char	*ft_strjoin(char *s1, char const *s2);
-int		ft_newline_found(char *s);
+// char	*ft_strjoin(char *s1, char *s2);
+char	*ft_realloc_result(char *result, int total_readed, int size);
+int		ft_nl_found(char *s);
 char	*ft_strndup(const char *s, int n);
+void	*ft_memcpy(char *dest, char *src, size_t n);
 char	*get_next_line(int fd);
 
 #endif
