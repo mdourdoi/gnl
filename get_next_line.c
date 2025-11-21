@@ -88,46 +88,58 @@ static char	*ft_get_result(char *result)
 	return (ret);
 }
 
-char	*get_next_line(int fd)
+static char	*ft_read(int fd, char *r, char residue[BUFFER_SIZE + 1],
+				int *r_size, int *total_readed)
 {
-	static char	residue[BUFFER_SIZE + 1] = "\0";
-	char		*r;
-	int			r_size;
-	int			readed;
-	int			total_readed;
+	int	readed;
 
-	if (read(fd, NULL, 0) < 0)
-		return (ft_exit(NULL, residue));
-	r_size = ft_strlen(residue, 0) + BUFFER_SIZE;
-	r = malloc((r_size + 1) * sizeof(char));
-	if (!r)
-		return (NULL);
-	ft_memcpy(r, residue, ft_strlen(residue, 0));
-	r[ft_strlen(residue, 0)] = 0;
-	total_readed = ft_strlen(residue, 0);
 	while (!ft_nl_found(r))
 	{
-		readed = read(fd, &r[total_readed], BUFFER_SIZE);
+		readed = read(fd, &r[*total_readed], BUFFER_SIZE);
 		if (readed < 0)
 			return (ft_exit(r, residue));
-		total_readed += readed;
-		r[total_readed] = '\0';
+		*total_readed += readed;
+		r[*total_readed] = '\0';
 		if (readed == 0)
 			break ;
-		if (total_readed + BUFFER_SIZE > r_size)
+		if (*total_readed + BUFFER_SIZE > *r_size)
 		{
-			r_size *= 2;
-			r = ft_realloc_result(r, total_readed, r_size);
+			*r_size *= 2;
+			r = ft_realloc_result(r, *total_readed, *r_size);
 			if (!r)
 				return (ft_exit(NULL, residue));
 		}
 	}
 	ft_get_residue(residue, r);
+	return (r);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	residue[BUFFER_SIZE + 1] = "\0";
+	char		*r;
+	int			r_size;
+	int			total_readed;
+
+	if (read(fd, NULL, 0) < 0)
+		return (ft_exit(NULL, residue));
+	total_readed = ft_strlen(residue, 0);
+	r_size = total_readed + BUFFER_SIZE;
+	r = malloc((r_size + 1) * sizeof(char));
+	if (!r)
+		return (NULL);
+	if (total_readed > 0)
+		ft_memcpy(r, residue, total_readed);
+	r[total_readed] = '\0';
+	r = ft_read(fd, r, residue, &r_size, &total_readed);
+	if (!r)
+		return (NULL);
 	r = ft_get_result(r);
 	if (r && r[0] == 0)
 		return (ft_exit(r, NULL));
 	return (r);
 }
+
 
 // char	*get_next_line(int fd)
 // {
