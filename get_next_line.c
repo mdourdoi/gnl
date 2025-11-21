@@ -6,7 +6,7 @@
 /*   By: mdourdoi <mdourdoi@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:59:02 by mdourdoi          #+#    #+#             */
-/*   Updated: 2025/11/20 18:11:26 by mdourdoi         ###   ########.fr       */
+/*   Updated: 2025/11/21 16:33:28 by mdourdoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,6 @@ static void	*ft_exit(char *result, char residue[BUFFER_SIZE])
 	}
 	return (NULL);
 }
-
-// static void	ft_clean_residue(char *residue)
-// {
-// 	size_t	i;
-// 	size_t	len;
-
-// 	len = ft_strlen(residue, '\n');
-// 	if (len == ft_strlen(residue, 0))
-// 	{
-// 		ft_exit(NULL, residue);
-// 		return ;
-// 	}
-// 	i = 0;
-// 	while (residue[i + len])
-// 	{
-// 		residue[i] = residue[i + len];
-// 		i++;
-// 	}
-// 	residue[i] = 0;
-// }
 
 static void	ft_get_residue(char residue[BUFFER_SIZE], char *result)
 {
@@ -88,96 +68,54 @@ static char	*ft_get_result(char *result)
 	return (ret);
 }
 
-static char	*ft_read(int fd, char *r, char residue[BUFFER_SIZE + 1],
-				int *r_size, int *total_readed)
+static char	*ft_read(int fd, char *result, char residue[BUFFER_SIZE + 1])
 {
+	int	result_size;
+	int	total_readed;
 	int	readed;
 
-	while (!ft_nl_found(r))
+	total_readed = ft_strlen(result, 0);
+	result_size = total_readed + BUFFER_SIZE;
+	while (!ft_nl_found(result))
 	{
-		readed = read(fd, &r[*total_readed], BUFFER_SIZE);
+		readed = read(fd, &result[total_readed], BUFFER_SIZE);
 		if (readed < 0)
-			return (ft_exit(r, residue));
-		*total_readed += readed;
-		r[*total_readed] = '\0';
+			return (ft_exit(result, residue));
+		total_readed += readed;
+		result[total_readed] = '\0';
 		if (readed == 0)
 			break ;
-		if (*total_readed + BUFFER_SIZE > *r_size)
+		if (total_readed + BUFFER_SIZE > result_size)
 		{
-			*r_size *= 2;
-			r = ft_realloc_result(r, *total_readed, *r_size);
-			if (!r)
+			result_size *= 2;
+			result = ft_realloc_result(result, total_readed, result_size);
+			if (!result)
 				return (ft_exit(NULL, residue));
 		}
 	}
-	ft_get_residue(residue, r);
-	return (r);
+	ft_get_residue(residue, result);
+	return (result);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	residue[BUFFER_SIZE + 1] = "\0";
-	char		*r;
-	int			r_size;
-	int			total_readed;
+	char		*result;
+	int			residue_len;
 
 	if (read(fd, NULL, 0) < 0)
 		return (ft_exit(NULL, residue));
-	total_readed = ft_strlen(residue, 0);
-	r_size = total_readed + BUFFER_SIZE;
-	r = malloc((r_size + 1) * sizeof(char));
-	if (!r)
+	residue_len = ft_strlen(residue, 0);
+	result = malloc((residue_len + BUFFER_SIZE + 1) * sizeof(char));
+	if (!result)
 		return (NULL);
-	if (total_readed > 0)
-		ft_memcpy(r, residue, total_readed);
-	r[total_readed] = '\0';
-	r = ft_read(fd, r, residue, &r_size, &total_readed);
-	if (!r)
+	ft_memcpy(result, residue, residue_len);
+	result[residue_len] = '\0';
+	result = ft_read(fd, result, residue);
+	if (!result)
 		return (NULL);
-	r = ft_get_result(r);
-	if (r && r[0] == 0)
-		return (ft_exit(r, NULL));
-	return (r);
+	result = ft_get_result(result);
+	if (result && result[0] == 0)
+		return (ft_exit(result, NULL));
+	return (result);
 }
-
-
-// char	*get_next_line(int fd)
-// {
-// 	static char	residue[BUFFER_SIZE + 1] = "\0";
-// 	char		*result;
-// 	int			read_size;
-
-// 	if (read(fd, NULL, 0) < 0)
-// 		return (ft_exit(NULL, residue));
-// 	result = ft_strndup(residue, ft_strlen(residue, '\n'));
-// 	while (result && !ft_newline_found(result))
-// 	{
-// 		read_size = read(fd, residue, BUFFER_SIZE);
-// 		if (read_size < 0)
-// 			return (ft_exit(result, residue));
-// 		if (read_size == 0)
-// 			break ;
-// 		residue[read_size] = '\0';
-// 		result = ft_strjoin(result, residue);
-// 		if (!result)
-// 			return (ft_exit(NULL, residue));
-// 	}
-// 	ft_clean_residue(residue);
-// 	if (result && result[0] == 0)
-// 		return (ft_exit(result, NULL));
-// 	return (result);
-// }
-
-// #include <stdio.h>
-// int	main(int, char** argv)
-// {
-// 	int fd = open(argv[1], 0, 0);
-// 	char *test;
-
-// 	while ((test = get_next_line(fd)))
-// 	{
-// 		printf("%s", test);
-// 		free(test);
-// 	}
-// 	return (0);
-// }

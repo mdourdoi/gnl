@@ -6,7 +6,7 @@
 /*   By: mdourdoi <mdourdoi@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:58:59 by mdourdoi          #+#    #+#             */
-/*   Updated: 2025/11/20 18:11:27 by mdourdoi         ###   ########.fr       */
+/*   Updated: 2025/11/21 16:31:24 by mdourdoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,46 +27,19 @@ size_t	ft_strlen(char const *s, char end)
 	return (i);
 }
 
-void	*ft_memcpy(char *dest, char *src, size_t n)
+void	ft_memcpy(char *dest, char *src, size_t n)
 {
 	size_t	i;
 
 	if (!dest && !src)
-		return (NULL);
+		return ;
 	i = 0;
 	while (i < n)
 	{
 		dest[i] = src[i];
 		i++;
 	}
-	return (dest);
 }
-
-// char	*ft_strjoin(char *s1, char *s2)
-// {
-// 	char	*temp;
-// 	size_t	len_s1;
-// 	size_t	len_s2;
-// 	size_t	i;
-
-// 	len_s1 = ft_strlen(s1, 0);
-// 	len_s2 = ft_strlen(s2, '\n');
-// 	temp = s1;
-// 	s1 = malloc((len_s1 + len_s2 + 1) * sizeof(char));
-// 	if (!s1)
-// 	{
-// 		free(temp);
-// 		return (NULL);
-// 	}
-// 	i = 0;
-// 	while (i < len_s1 + len_s2 + 1)
-// 		s1[i++] = 0;
-// 	ft_memcpy(s1, temp, len_s1);
-// 	ft_memcpy(&s1[len_s1], s2, len_s2);
-// 	s1[len_s1 + len_s2] = 0;
-// 	free(temp);
-// 	return (s1);
-// }
 
 char	*ft_realloc_result(char *result, int total_readed, int size)
 {

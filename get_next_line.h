@@ -6,7 +6,7 @@
 /*   By: mdourdoi <mdourdoi@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:58:54 by mdourdoi          #+#    #+#             */
-/*   Updated: 2025/11/20 18:11:28 by mdourdoi         ###   ########.fr       */
+/*   Updated: 2025/11/21 16:31:29 by mdourdoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,10 @@
 # endif
 
 size_t	ft_strlen(char const *s, char end);
-// char	*ft_strjoin(char *s1, char *s2);
 char	*ft_realloc_result(char *result, int total_readed, int size);
 int		ft_nl_found(char *s);
 char	*ft_strndup(const char *s, int n);
-void	*ft_memcpy(char *dest, char *src, size_t n);
+void	ft_memcpy(char *dest, char *src, size_t n);
 char	*get_next_line(int fd);
 
 #endif
