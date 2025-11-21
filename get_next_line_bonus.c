@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdourdoi <mdourdoi@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:59:02 by mdourdoi          #+#    #+#             */
-/*   Updated: 2025/11/21 16:54:00 by mdourdoi         ###   ########.fr       */
+/*   Updated: 2025/11/21 17:06:00 by mdourdoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static void	*ft_exit(char *result, char residue[BUFFER_SIZE + 1])
 {
@@ -22,10 +22,7 @@ static void	*ft_exit(char *result, char residue[BUFFER_SIZE + 1])
 	{
 		i = 0;
 		while (i < BUFFER_SIZE + 1)
-		{
-			residue[i] = 0;
-			i++;
-		}
+			residue[i++] = 0;
 	}
 	return (NULL);
 }
@@ -99,23 +96,23 @@ static char	*ft_read(int fd, char *result, char residue[BUFFER_SIZE + 1])
 
 char	*get_next_line(int fd)
 {
-	static char	residue[BUFFER_SIZE + 1] = "\0";
+	static char	residue[1024][BUFFER_SIZE + 1];
 	char		*result;
 	int			residue_len;
 
 	if (read(fd, NULL, 0) < 0)
-		return (ft_exit(NULL, residue));
-	residue_len = ft_strlen(residue, 0);
+		return (ft_exit(NULL, residue[fd]));
+	residue_len = ft_strlen(residue[fd], 0);
 	result = malloc((residue_len + BUFFER_SIZE + 1) * sizeof(char));
 	if (!result)
 		return (NULL);
-	ft_memcpy(result, residue, residue_len);
+	ft_memcpy(result, residue[fd], residue_len);
 	result[residue_len] = '\0';
-	result = ft_read(fd, result, residue);
+	result = ft_read(fd, result, residue[fd]);
 	if (!result)
 		return (NULL);
 	result = ft_get_result(result);
 	if (result && result[0] == 0)
-		return (ft_exit(result, NULL));
+		return (ft_exit(result, residue[fd]));
 	return (result);
 }
