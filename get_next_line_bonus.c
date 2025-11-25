@@ -6,13 +6,13 @@
 /*   By: mdourdoi <mdourdoi@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:59:02 by mdourdoi          #+#    #+#             */
-/*   Updated: 2025/11/21 17:06:00 by mdourdoi         ###   ########.fr       */
+/*   Updated: 2025/11/25 12:50:00 by mdourdoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-static void	*ft_exit(char *result, char residue[BUFFER_SIZE + 1])
+static void	*ft_exit(char *result, char residue[BUFFER_SIZE])
 {
 	size_t	i;
 
@@ -21,7 +21,7 @@ static void	*ft_exit(char *result, char residue[BUFFER_SIZE + 1])
 	if (residue)
 	{
 		i = 0;
-		while (i < BUFFER_SIZE + 1)
+		while (i < BUFFER_SIZE)
 			residue[i++] = 0;
 	}
 	return (NULL);
@@ -65,7 +65,7 @@ static char	*ft_get_result(char *result)
 	return (ret);
 }
 
-static char	*ft_read(int fd, char *result, char residue[BUFFER_SIZE + 1])
+static char	*ft_read(int fd, char *result, char residue[BUFFER_SIZE])
 {
 	int	result_size;
 	int	total_readed;
@@ -96,12 +96,12 @@ static char	*ft_read(int fd, char *result, char residue[BUFFER_SIZE + 1])
 
 char	*get_next_line(int fd)
 {
-	static char	residue[1024][BUFFER_SIZE + 1];
+	static char	residue[1024][BUFFER_SIZE];
 	char		*result;
 	int			residue_len;
 
-	if (read(fd, NULL, 0) < 0)
-		return (ft_exit(NULL, residue[fd]));
+	if (fd < 0 || fd > 1023 || BUFFER_SIZE < 1)
+		return (NULL);
 	residue_len = ft_strlen(residue[fd], 0);
 	result = malloc((residue_len + BUFFER_SIZE + 1) * sizeof(char));
 	if (!result)
