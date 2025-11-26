@@ -6,7 +6,7 @@
 /*   By: mdourdoi <mdourdoi@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:58:59 by mdourdoi          #+#    #+#             */
-/*   Updated: 2025/11/21 16:31:24 by mdourdoi         ###   ########.fr       */
+/*   Updated: 2025/11/26 10:42:51 by mdourdoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,28 +55,6 @@ char	*ft_realloc_result(char *result, int total_readed, int size)
 	ft_memcpy(result, temp, total_readed + 1);
 	free(temp);
 	return (result);
-}
-
-char	*ft_strndup(const char *s, int n)
-{
-	size_t		len;
-	size_t		i;
-	char		*res;
-
-	len = ft_strlen(s, 0);
-	if ((size_t)n < len && n > 0)
-		len = (size_t)n;
-	res = malloc((len + 1) * sizeof(char));
-	if (!res)
-		return (NULL);
-	i = 0;
-	while (i < len && s[i])
-	{
-		res[i] = s[i];
-		i++;
-	}
-	res[i] = 0;
-	return (res);
 }
 
 int	ft_nl_found(char *s)
