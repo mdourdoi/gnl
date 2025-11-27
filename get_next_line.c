@@ -6,7 +6,7 @@
 /*   By: mdourdoi <mdourdoi@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:59:02 by mdourdoi          #+#    #+#             */
-/*   Updated: 2025/11/25 13:06:44 by mdourdoi         ###   ########.fr       */
+/*   Updated: 2025/11/27 15:57:56 by mdourdoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char	*get_next_line(int fd)
 	int			residue_len;
 
 	if (fd < 0 || fd > 1023 || BUFFER_SIZE < 1)
-		return (ft_exit(NULL, residue));
+		return (NULL);
 	residue_len = ft_strlen(residue, 0);
 	result = malloc((residue_len + BUFFER_SIZE + 1) * sizeof(char));
 	if (!result)
